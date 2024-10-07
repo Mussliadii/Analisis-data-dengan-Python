@@ -10,7 +10,7 @@ import seaborn as sns
 sns.set(style='dark')
 
 # Load dataset
-all_df_shunyi = pd.read_csv("dashboard/all_data.csv")
+all_df_shunyi = pd.read_csv("Dashboard/all_data.csv")
 
 # Title of the dashboard
 st.title('Air Quality Analysis Dashboard: Shunyi Station')
