@@ -13,7 +13,7 @@ import seaborn as sns
 sns.set(style='dark')
 
 # Hide PyplotGlobalUseWarning
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Load dataset
 all_df_shunyi = pd.read_csv("all_data.csv")
