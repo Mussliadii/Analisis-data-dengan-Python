@@ -16,7 +16,7 @@ all_df_shunyi = pd.read_csv("Dashboard/all_data.csv")
 st.title('Air Quality Analysis Dashboard: Shunyi Station')
 
 # Dashboard header
-st.write("**This dashboard contains air quality and variables that affect air quality at Shunyi Station.**")
+st.write("**This dashboard contains air quality and variables that affect air quality at Wanliu Station.**")
 
 # Histogram
 st.subheader('Data distribution')
