@@ -10,7 +10,7 @@ import seaborn as sns
 sns.set(style='dark')
 
 # Load dataset
-all_df_shunyi = pd.read_csv("Dashboard/all_data.csv")
+all_df_shunyi = pd.read_csv("dashboard/all_data.csv")
 
 # Title of the dashboard
 st.title('Air Quality Analysis Dashboard: Shunyi Station')
@@ -21,9 +21,15 @@ st.write("**This dashboard contains air quality and variables that affect air qu
 # Histogram
 st.subheader('Data distribution')
 fig, axes = plt.subplots(nrows=1, ncols=len(all_df_shunyi.columns), figsize=(15, 4))
+
+# Jika ada satu kolom, axes bukan array
+if len(all_df_shunyi.columns) == 1:
+    axes = [axes]  # Ubah menjadi list agar dapat diakses seperti array
+
 for i, column in enumerate(all_df_shunyi.columns):
     axes[i].hist(all_df_shunyi[column])
     axes[i].set_title(column)
+
 plt.tight_layout()  # Add this to adjust the layout
 st.pyplot(fig)
 
