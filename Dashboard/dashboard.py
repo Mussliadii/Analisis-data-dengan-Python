@@ -13,7 +13,7 @@ sns.set(style='dark')
 all_df_shunyi = pd.read_csv("Dashboard/all_data.csv")
 
 # Title of the dashboard
-st.title('Air Quality Analysis Dashboard: Shunyi Station')
+st.title('Air Quality Analysis Dashboard: Wanliu Station')
 
 # Dashboard header
 st.write("**This dashboard contains air quality and variables that affect air quality at Wanliu Station.**")
