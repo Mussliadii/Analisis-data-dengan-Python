@@ -67,7 +67,6 @@ except Exception as e:
     st.error(f"Terjadi error saat membuat heatmap: {str(e)}")
 
 # Widget
-
     # Widget interaktif
     st.subheader("Analisis Kolom")
     column = st.selectbox("Pilih kolom untuk dianalisis:", df.columns)
