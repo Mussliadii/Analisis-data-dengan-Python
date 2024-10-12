@@ -12,7 +12,7 @@ st.title("Dashboard Data Analisis")
 # Baca data
 @st.cache_data
 def load_data():
-    data = pd.read_csv("all_data.csv")
+    data = pd.read_csv("Dashboard/all_data.csv")
     return data
 
 df = load_data()
