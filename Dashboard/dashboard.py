@@ -1,72 +1,79 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
+import matplotlib.pyplot as plt
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Air Quality Analysis Dashboard: Wanliu Station", layout="wide")
 
 # Judul dashboard
-st.title("Dashboard Data Analisis Air Quality Analysis Dashboard: Wanliu Station")
+st.title("Dashboard Data Analisis Air Quality: Wanliu Station")
 
 # Baca data
 try:
-    df = pd.read_csv("Dashboard/all_data.csv")
+    airdata_df = pd.read_csv("Dashboard/all_data.csv")
 except FileNotFoundError:
     st.error("File 'all_data.csv' tidak ditemukan. Pastikan file ada di direktori yang benar.")
     st.stop()
 
 # Tampilkan informasi kolom
 st.write("Tipe data kolom:")
-st.write(df.dtypes)
+st.write(airdata_df.dtypes)
 
-# Tampilkan dataframe
+# Tampilkan data mentah
 st.subheader("Data Mentah")
-st.dataframe(df.head())
+st.dataframe(airdata_df.head())
 
-# Pilih kolom numerik
-numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+# Merge year dan month menjadi year_month
+airdata_df['year_month'] = airdata_df['year'].astype(str) + '-' + airdata_df['month'].astype(str).str.zfill(2)
 
-# Buat dua kolom
-col1, col2 = st.columns(2)
+# Menghitung rata-rata bulanan PM2.5
+pm25_monthly = airdata_df.groupby('year_month')['PM2.5'].mean().reset_index()
 
-with col1:
-    st.subheader("Histogram")
-    selected_column = st.selectbox("Pilih kolom untuk histogram:", numeric_columns)
-    try:
-        fig, ax = plt.subplots()
-        ax.hist(df[selected_column], bins=20)
-        ax.set_xlabel(selected_column)
-        ax.set_ylabel("Frekuensi")
-        st.pyplot(fig)
-    except Exception as e:
-        st.error(f"Terjadi error saat membuat histogram: {str(e)}")
+# Membuat plot trendline PM2.5 dari bulan ke bulan
+st.subheader("Trendline PM2.5 dari Bulan ke Bulan")
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.lineplot(data=pm25_monthly, x='year_month', y='PM2.5', marker='o', color='Black', ax=ax)
+ax.set_xlabel('Year-Month')
+ax.set_ylabel('Average PM2.5')
+ax.set_title('Trendline of PM2.5 from Month to Month')
+plt.xticks(rotation=90)
+st.pyplot(fig)
 
-with col2:
-    st.subheader("Scatter Plot")
-    x_column = st.selectbox("Pilih kolom untuk sumbu X:", numeric_columns)
-    y_column = st.selectbox("Pilih kolom untuk sumbu Y:", numeric_columns)
-    try:
-        fig, ax = plt.subplots()
-        ax.scatter(df[x_column], df[y_column])
-        ax.set_xlabel(x_column)
-        ax.set_ylabel(y_column)
-        st.pyplot(fig)
-    except Exception as e:
-        st.error(f"Terjadi error saat membuat scatter plot: {str(e)}")
+# Scatter plot antara NO2 dan CO
+st.subheader("Scatter Plot antara NO2 dan CO")
+fig, ax = plt.subplots()
+sns.scatterplot(x='NO2', y='CO', data=airdata_df, ax=ax)
+ax.set_xlabel('NO2')
+ax.set_ylabel('CO')
+ax.set_title('Relationship between NO2 and CO')
+st.pyplot(fig)
 
-# Buat heatmap
+# Korelasi antara NO2 dan CO
+correlation = airdata_df['NO2'].corr(airdata_df['CO'])
+st.write(f"Nilai korelasi antara NO2 dan CO: {correlation:.2f}")
+if correlation > 0.5:
+    st.write("Ada korelasi positif yang kuat antara NO2 dan CO.")
+elif correlation < -0.5:
+    st.write("Ada korelasi negatif yang kuat antara NO2 dan CO.")
+else:
+    st.write("Tidak ada korelasi yang kuat antara NO2 dan CO.")
+
+# Menghitung rata-rata tahunan PM2.5 dan PM10
+pm_yearly = airdata_df.groupby('year')[['PM2.5', 'PM10']].mean()
+
+# Perbandingan PM2.5 dan PM10 dari tahun ke tahun
+st.subheader("Perbandingan PM2.5 dan PM10 dari Tahun ke Tahun")
+fig, ax = plt.subplots()
+pm_yearly.plot(marker='o', ax=ax)
+ax.set_xlabel('Year')
+ax.set_ylabel('Average Concentration')
+ax.set_title('Comparison of PM2.5 and PM10 from Year to Year')
+ax.grid(True)
+st.pyplot(fig)
+
+# Heatmap korelasi
 st.subheader("Heatmap Korelasi")
-try:
-    fig, ax = plt.subplots(figsize=(15, 8))
-    sns.heatmap(df[numeric_columns].corr(), annot=True, cmap='coolwarm', ax=ax)
-    st.pyplot(fig)
-except Exception as e:
-    st.error(f"Terjadi error saat membuat heatmap: {str(e)}")
-
-# Widget
-    # Widget interaktif
-    st.subheader("Analisis Kolom")
-    column = st.selectbox("Pilih kolom untuk dianalisis:", df.columns)
-    st.write(df[column].describe())
+fig, ax = plt.subplots(figsize=(15, 8))
+sns.heatmap(airdata_df[['PM2.5', 'PM10', 'NO2', 'CO']].corr(), annot=True, cmap='coolwarm', ax=ax)
+st.pyplot(fig)
