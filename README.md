@@ -1,5 +1,5 @@
 # Dashboard
-This is a dashboard visualizing the air quality at Shinyu station.
+This is a dashboard visualizing the air quality at Wanliu station.
 
 # Step to Run Dashboard
 packages: pip install -r requirements.txt
