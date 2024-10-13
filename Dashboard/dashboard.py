@@ -60,7 +60,7 @@ with col2:
 # Buat heatmap
 st.subheader("Heatmap Korelasi")
 try:
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(figsize=(15, 8))
     sns.heatmap(df[numeric_columns].corr(), annot=True, cmap='coolwarm', ax=ax)
     st.pyplot(fig)
 except Exception as e:
