@@ -7,4 +7,4 @@ packages: pip install -r requirements.txt
 Run the dashboard with: streamlit run dashboard.py
 
 # URL
-https://proyekakhir-alfiandi21.streamlit.app/
+https://hmrejfihvcubaim4xrqi2f.streamlit.app/
