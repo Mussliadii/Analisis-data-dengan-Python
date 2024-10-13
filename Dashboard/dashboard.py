@@ -8,7 +8,7 @@ import numpy as np
 st.set_page_config(page_title="Air Quality Analysis Dashboard: Wanliu Station", layout="wide")
 
 # Judul dashboard
-st.title("Dashboard Data Analisis")
+st.title("Dashboard Data Analisis Air Quality Analysis Dashboard: Wanliu Station")
 
 # Baca data
 try:
