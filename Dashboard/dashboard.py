@@ -18,7 +18,6 @@ except FileNotFoundError:
     st.stop()
 
 # Tampilkan informasi kolom
-st.write("Kolom yang tersedia:", df.columns.tolist())
 st.write("Tipe data kolom:")
 st.write(df.dtypes)
 
