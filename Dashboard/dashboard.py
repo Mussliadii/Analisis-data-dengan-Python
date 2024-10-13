@@ -71,6 +71,3 @@ except Exception as e:
     st.subheader("Analisis Kolom")
     column = st.selectbox("Pilih kolom untuk dianalisis:", df.columns)
     st.write(df[column].describe())
-    
-else:
-    st.error("Tidak dapat menampilkan dashboard karena data tidak tersedia.")
